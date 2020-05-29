@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200529062711_AddReferenceGenresToBooks.cs" />
+    <Compile Remove="Migrations\20200529062711_AddReferenceGenresToBooks.Designer.cs" />
+    <Compile Remove="Migrations\20200529062854_SetRequiredFKBooks.cs" />
+    <Compile Remove="Migrations\20200529062854_SetRequiredFKBooks.Designer.cs" />
+    <Compile Remove="Migrations\20200529063453_AddDeleteBehaviorToBooks.cs" />
+    <Compile Remove="Migrations\20200529063453_AddDeleteBehaviorToBooks.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>
