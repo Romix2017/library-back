@@ -10,26 +10,29 @@ using System.Threading.Tasks;
 
 namespace DAL.UnitOfWork
 {
-   public class Repository<T, TDto>: IRepository<T, TDto> where T: class where TDto: class
+    public class Repository<T, TDto> : IRepository<T, TDto> where T : class where TDto : class
     {
         private readonly DbSet<T> _entities;
         public Repository(DbContext context)
         {
             _entities = context.Set<T>();
         }
-        public void Add(T entity)
+        public T Add(T entity)
         {
             _entities.Add(entity);
+            return entity;
         }
 
-        public void AddRange(IEnumerable<T> entities)
+        public IEnumerable<T> AddRange(IEnumerable<T> entities)
         {
             _entities.AddRange(entities);
+            return entities;
         }
 
-        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<TDto>> Find(Expression<Func<T, bool>> predicate)
         {
-            return _entities.Where(predicate);
+            var res = await _entities.Where(predicate).ToListAsync();
+            return Mapping.Mapper.Map<IEnumerable<TDto>>(res);
         }
 
         public async Task<IEnumerable<TDto>> GetAll()
@@ -38,19 +41,21 @@ namespace DAL.UnitOfWork
             return Mapping.Mapper.Map<IEnumerable<TDto>>(res);
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return _entities.Find(id);
+            return await _entities.FindAsync(id);
         }
 
-        public void Remove(T entity)
+        public T Remove(T entity)
         {
             _entities.Remove(entity);
+            return entity;
         }
 
-        public void RemoveRange(IEnumerable<T> entities)
+        public IEnumerable<T> RemoveRange(IEnumerable<T> entities)
         {
             _entities.RemoveRange(entities);
+            return entities;
         }
     }
 }
