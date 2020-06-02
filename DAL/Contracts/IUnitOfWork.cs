@@ -11,6 +11,7 @@ namespace DAL.Contracts
         IGenresRepository GenresRepo { get; }
         IRolesRepository RolesRepo { get; }
         IUsersRepository UsersRepo { get; }
+        IRepository<T, TDto> GetRepo<T, TDto>(Type entity) where T : class where TDto : class;
         int Complete();
     }
 }

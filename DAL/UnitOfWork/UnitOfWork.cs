@@ -1,8 +1,10 @@
-﻿using DAL.Contracts;
+﻿using Core.DTO;
+using DAL.Contracts;
 using DAL.Factories.ContextOptionsBuilderFactory;
 using DAL.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -27,6 +29,24 @@ namespace DAL.UnitOfWork
         public IGenresRepository GenresRepo { get; }
         public IRolesRepository RolesRepo { get; }
         public IUsersRepository UsersRepo { get; }
+        public IRepository<T, TDto> GetRepo<T, TDto>(Type entity) where T : class where TDto : class
+        {
+            switch (entity.Name)
+            {
+                case nameof(BooksHistoryDTO):
+                    return (IRepository<T, TDto>)BooksHistoryRepo;
+                case nameof(BooksDTO):
+                    return (IRepository<T, TDto>)BooksRepo;
+                case nameof(GenresDTO):
+                    return (IRepository<T, TDto>)GenresRepo;
+                case nameof(RolesDTO):
+                    return (IRepository<T, TDto>)RolesRepo;
+                case nameof(UsersDTO):
+                    return (IRepository<T, TDto>)UsersRepo;
+                default:
+                    return null;
+            }
+        }
 
         public int Complete()
         {

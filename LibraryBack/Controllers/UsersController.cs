@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL.Contract;
+using Core.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,36 +13,44 @@ namespace LibraryBack.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IUsersService _usersService;
+        public UsersController(IUsersService usersService)
+        {
+            _usersService = usersService;
+        }
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<UsersDTO>>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return await _usersService.GetAll();
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UsersDTO>> Get(int id)
         {
-            return "value";
+            return await _usersService.GetById(id);
         }
 
         // POST: api/Users
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] UsersDTO entity)
         {
+            return await _usersService.Add(entity);
         }
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put([FromBody] UsersDTO entity)
         {
+            return await _usersService.Update(entity);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(UsersDTO entity)
         {
+            return await _usersService.Remove(entity);
         }
     }
 }

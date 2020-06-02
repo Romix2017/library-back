@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL.Contract;
+using Core.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,36 +13,43 @@ namespace LibraryBack.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+        private readonly IBooksService _booksService;
+        public BooksController(IBooksService booksService)
+        {
+            _booksService = booksService;
+        }
         // GET: api/Books
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<BooksDTO>>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return await _booksService.GetAll();
         }
-
         // GET: api/Books/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BooksDTO>> Get(int id)
         {
-            return "value";
+            return await _booksService.GetById(id);
         }
 
         // POST: api/Books
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] BooksDTO entity)
         {
+            return await _booksService.Add(entity);
         }
 
         // PUT: api/Books/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put([FromBody] BooksDTO value)
         {
+            return await _booksService.Update(value);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(BooksDTO entity)
         {
+            return await _booksService.Remove(entity);
         }
     }
 }

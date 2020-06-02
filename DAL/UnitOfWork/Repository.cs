@@ -23,6 +23,12 @@ namespace DAL.UnitOfWork
             return entity;
         }
 
+        public T Update(T entity)
+        {
+            _entities.Update(entity);
+            return entity;
+        }
+
         public IEnumerable<T> AddRange(IEnumerable<T> entities)
         {
             _entities.AddRange(entities);
@@ -35,12 +41,10 @@ namespace DAL.UnitOfWork
             return Mapping.Mapper.Map<IEnumerable<TDto>>(res);
         }
 
-        public async Task<IEnumerable<TDto>> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            var res = await _entities.ToListAsync();
-            return Mapping.Mapper.Map<IEnumerable<TDto>>(res);
+            return await _entities.ToListAsync();
         }
-
         public async Task<T> GetById(int id)
         {
             return await _entities.FindAsync(id);
@@ -56,6 +60,48 @@ namespace DAL.UnitOfWork
         {
             _entities.RemoveRange(entities);
             return entities;
+        }
+
+        //DTO
+        public async Task<TDto> GetByIdDTO(int id)
+        {
+            var res = await _entities.FindAsync(id);
+            return Mapping.Mapper.Map<TDto>(res);
+        }
+        public async Task<IEnumerable<TDto>> GetAllDTO()
+        {
+            var res = await _entities.ToListAsync();
+            return Mapping.Mapper.Map<IEnumerable<TDto>>(res);
+        }
+        public TDto AddDTO(TDto entity)
+        {
+            var res = Mapping.Mapper.Map<T>(entity);
+            _entities.Add(res);
+            return entity;
+        }
+        public IEnumerable<TDto> AddRangeDTO(IEnumerable<TDto> entities)
+        {
+            var res = Mapping.Mapper.Map<IEnumerable<T>>(entities);
+            _entities.AddRange(res);
+            return entities;
+        }
+        public TDto RemoveDTO(TDto entity)
+        {
+            var res = Mapping.Mapper.Map<T>(entity);
+            _entities.Remove(res);
+            return entity;
+        }
+        public IEnumerable<TDto> RemoveRangeDTO(IEnumerable<TDto> entities)
+        {
+            var res = Mapping.Mapper.Map<IEnumerable<T>>(entities);
+            _entities.RemoveRange(res);
+            return entities;
+        }
+        public TDto UpdateDTO(TDto entity)
+        {
+            var res = Mapping.Mapper.Map<T>(entity);
+            _entities.Update(res);
+            return entity;
         }
     }
 }
