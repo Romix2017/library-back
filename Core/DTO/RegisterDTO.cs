@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Core.DTO
 {
-    public class UsersDTO
+    public class RegisterDTO
     {
-        public int Id { get; set; }
-        public DateTime DOB { get; set; }
-        public int RolesId { get; set; }
+        [Required]
         public string FirstName { get; set; }
+
+        [Required]
         public string LastName { get; set; }
+
+        [Required]
         public string Username { get; set; }
+
+        [Required]
+        public string Password { get; set; }
     }
 }

@@ -53,7 +53,7 @@ namespace DAL.Models
             });
             modelBuilder.Entity<Users>(entity =>
             {
-                entity.Property(e => e.Name)
+                entity.Property(e => e.Username)
                 .HasMaxLength(100)
                 .IsRequired();
 

@@ -21,6 +21,7 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).AddDTO(entity));
+                SaveToDB();
                 return new OkResult();
             }
             catch (Exception ex)
@@ -34,6 +35,7 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<IEnumerable<TDto>>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).AddRangeDTO(entities));
+                SaveToDB();
                 return new OkResult();
             }
             catch (Exception ex)
@@ -71,6 +73,7 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).RemoveDTO(entity));
+                SaveToDB();
                 return new OkResult();
             }
             catch (Exception ex)
@@ -84,6 +87,7 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<IEnumerable<TDto>>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).RemoveRangeDTO(entities));
+                SaveToDB();
                 return new OkResult();
             }
             catch (Exception ex)
@@ -97,12 +101,17 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).UpdateDTO(entity));
+                SaveToDB();
                 return new OkResult();
             }
             catch (Exception ex)
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
+        }
+        public void SaveToDB()
+        {
+            _unitOfWork.Complete();
         }
     }
 }

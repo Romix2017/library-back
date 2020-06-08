@@ -12,7 +12,7 @@ namespace DAL.UnitOfWork
 {
     public class Repository<T, TDto> : IRepository<T, TDto> where T : class where TDto : class
     {
-        private readonly DbSet<T> _entities;
+        internal readonly DbSet<T> _entities;
         public Repository(DbContext context)
         {
             _entities = context.Set<T>();

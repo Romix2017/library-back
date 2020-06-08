@@ -17,5 +17,14 @@ namespace LibraryBack.Extensions
                             .ToArray();
             return res;
         }
+        public static string GetJWTSecret(this IConfiguration configuration, string sectionName, string parameterName)
+        {
+            var res = configuration
+                .GetSection(sectionName)
+                .GetChildren()
+                .Single(x => x.Key == parameterName).ToString();
+        
+            return res;
+        }
     }
 }
