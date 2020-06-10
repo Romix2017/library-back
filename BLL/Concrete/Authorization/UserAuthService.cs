@@ -7,6 +7,7 @@ using Core.Shared.Settings;
 using DAL.Automapper;
 using DAL.Contracts;
 using DAL.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -23,10 +24,11 @@ namespace BLL.Concrete.Authorization
     {
         private readonly IUsersService _userService;
         private readonly AppSettings _appSettings;
-        public UserAuthService(IUsersService userService, IOptions<AppSettings> appSettings)
+        public UserAuthService(IUsersService userService, AppSettings appSettings,
+            ILogger<UserAuthService> log)
         {
             _userService = userService;
-            _appSettings = appSettings.Value;
+            _appSettings = appSettings;
         }
         public async Task<UsersDTO> Authenticate(string username, string password)
         {
@@ -46,7 +48,6 @@ namespace BLL.Concrete.Authorization
 
         public async Task<RegisterDTO> Create(RegisterDTO user, string password)
         {
-            // validation
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
             if (await _userService.GetUserByName(user.Username) != null)
@@ -59,28 +60,21 @@ namespace BLL.Concrete.Authorization
             await this._userService.Add(newUser);
             return user;
         }
-
         public async Task<UsersDTO> Update(UpdateAuthUserDTO user)
         {
             var userForUpdate = await _userService.GetUserByName(user.Username);
             if (userForUpdate == null)
                 throw new AppException("User not found");
-            // update username if it has changed
             if (!string.IsNullOrWhiteSpace(userForUpdate.Username) && userForUpdate.Username != user.Username)
             {
-                // throw error if the new username is already taken
-                //if (_context.Users.Any(x => x.Username == userParam.Username))
-                //    throw new AppException("Username " + userParam.Username + " is already taken");
                 if (await _userService.GetUserByName(user.Username) != null)
                     throw new AppException("Username " + user.Username + " is already taken");
                 userForUpdate.Username = user.Username;
             }
-            // update user properties if provided
             if (!string.IsNullOrWhiteSpace(user.FirstName))
                 userForUpdate.FirstName = user.FirstName;
             if (!string.IsNullOrWhiteSpace(user.LastName))
                 userForUpdate.LastName = user.LastName;
-            // update password if provided
             if (!string.IsNullOrWhiteSpace(user.Password))
             {
                 byte[] passwordHash, passwordSalt;

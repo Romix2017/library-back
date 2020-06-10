@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using BLL.Concrete;
 using BLL.Concrete.Authorization;
+using BLL.Concrete.Errors;
 using BLL.Contract;
 using BLL.Contract.Authorization;
+using BLL.Contract.Errors;
 using Core.Shared.Settings;
 using DAL.Contracts;
 using DAL.UnitOfWork;
@@ -62,6 +64,8 @@ namespace LibraryBack
             services.AddScoped<IRolesService, RolesService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IUserAuthService, UserAuthService>();
+            services.AddScoped<IUserAuthService, UserAuthService>();
+            services.AddSingleton<IErrorService, ErrorService>();
             //Jwt Authentication
 
             var key = Encoding.UTF8.GetBytes(settings.Secret);
@@ -97,12 +101,11 @@ namespace LibraryBack
                    ValidateAudience = false
                };
            });
-            services.AddScoped<IUserAuthService, UserAuthService>();
-
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseSwagger();
             if (env.IsDevelopment())
@@ -113,7 +116,6 @@ namespace LibraryBack
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
             });
-            //app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors(CF.DEFAULT_CORS_POLICY);
             app.UseAuthentication();
@@ -122,6 +124,7 @@ namespace LibraryBack
             {
                 endpoints.MapControllers();
             });
+            loggerFactory.AddFile("Logs/{Date}.txt");
         }
     }
 }

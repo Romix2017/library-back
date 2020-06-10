@@ -16,7 +16,7 @@ namespace DAL.Automapper
             CreateMap<Genres, GenresDTO>();
             CreateMap<Roles, RolesDTO>();
             CreateMap<Users, UsersDTO>();
-            CreateMap<Users, RegisterDTO>();
+            CreateMap<RegisterDTO, Users>();
         }
     }
 }

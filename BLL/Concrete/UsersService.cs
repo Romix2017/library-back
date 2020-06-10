@@ -1,21 +1,27 @@
 ﻿using BLL.Contract;
+using BLL.Contract.Errors;
 using Core.DTO;
+using Core.Shared.ErrorCodes;
+using Core.Shared.helpers;
+using Core.Shared.Helpers;
 using DAL.Contracts;
 using DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BLL.Concrete
 {
     public class UsersService : AbstractGenericEntityService<Users, UsersDTO>, IUsersService
     {
-        public UsersService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public UsersService(IUnitOfWork unitOfWork, IErrorService errorService)
+            : base(unitOfWork, errorService, ModulesIndex.USERS_SERVICE)
         {
-
         }
         public async Task<Users> GetUserByName(string name)
         {
@@ -25,7 +31,7 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return null;
+                throw base._errorService.CreateException(ex, this._moduleCode, MethodsIndex.GET_USER_BY_NAME);
             }
         }
         public async Task<Users> Add(Users entity)
@@ -38,7 +44,7 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return null;
+                throw base._errorService.CreateException(ex, this._moduleCode, MethodsIndex.ADD_ENTITY);
             }
         }
         public async Task<Users> UpdateEntity(Users entity)
@@ -51,7 +57,7 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return null;
+                throw base._errorService.CreateException(ex, this._moduleCode, MethodsIndex.UPDATE_ENTITY);
             }
         }
     }

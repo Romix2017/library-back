@@ -40,7 +40,7 @@ namespace DAL.Models
                 .HasMaxLength(200);
 
                 entity.Property(e => e.PublishingDate)
-                .HasColumnType("datetime")
+                .HasColumnType("datetime2")
                 .IsRequired();
 
                 entity.Property(e => e.Notation)
@@ -58,7 +58,7 @@ namespace DAL.Models
                 .IsRequired();
 
                 entity.Property(e => e.DOB)
-                .HasColumnType("datetime");
+                .HasColumnType("datetime2");
             });
             modelBuilder.Entity<Users>()
                 .HasOne(x => x.Roles)
@@ -77,9 +77,9 @@ namespace DAL.Models
             modelBuilder.Entity<BooksHistory>(entity =>
             {
                 entity.Property(e => e.DateGiven)
-                .HasColumnType("datetime");
+                .HasColumnType("datetime2");
                 entity.Property(e => e.DateReturned)
-                .HasColumnType("datetime");
+                .HasColumnType("datetime2");
             });
             modelBuilder.Entity<BooksHistory>()
                .HasOne(x => x.Books)

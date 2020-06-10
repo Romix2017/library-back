@@ -9,14 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using DAL.Contracts;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Core.Shared.ErrorCodes;
+using BLL.Contract.Errors;
 
 namespace BLL.Concrete
 {
     public class BooksHistoryService : AbstractGenericEntityService<BooksHistory, BooksHistoryDTO>, IBooksHistoryService
     {
-        public BooksHistoryService(IUnitOfWork unitOfWork):base(unitOfWork)
+        public BooksHistoryService(IUnitOfWork unitOfWork, IErrorService errorService)
+            : base(unitOfWork, errorService, ModulesIndex.BOOKS_HISTORY_SERVICE)
         {
-
         }
     }
 }

@@ -1,20 +1,31 @@
 ﻿using BLL.Contract;
+using BLL.Contract.Errors;
+using Core.Models.Logging;
+using Core.Shared.ErrorCodes;
+using Core.Shared.helpers;
+using Core.Shared.Helpers;
 using DAL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace BLL.Concrete
 {
     public abstract class AbstractGenericEntityService<T, TDto> : IGenericEntityService<TDto> where T : class where TDto : class
     {
         internal readonly IUnitOfWork _unitOfWork;
-        public AbstractGenericEntityService(IUnitOfWork unitOfWork)
+        internal readonly IErrorService _errorService;
+        internal readonly int _moduleCode;
+        public AbstractGenericEntityService(IUnitOfWork unitOfWork, IErrorService errorService, int moduleCode)
         {
             _unitOfWork = unitOfWork;
+            _errorService = errorService;
+            _moduleCode = moduleCode;
         }
         public async Task<ActionResult> Add(TDto entity)
         {
@@ -26,7 +37,7 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.ADD);
             }
         }
 
@@ -40,7 +51,7 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.ADD_RANGE);
             }
         }
 
@@ -52,7 +63,7 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.GET_ALL);
             }
         }
 
@@ -64,7 +75,7 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.GET_BY_ID);
             }
         }
 
@@ -78,7 +89,7 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.REMOVE);
             }
         }
 
@@ -92,7 +103,7 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.REMOVE_RANGE);
             }
         }
 
@@ -106,12 +117,13 @@ namespace BLL.Concrete
             }
             catch (Exception ex)
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.UPDATE);
             }
         }
         public void SaveToDB()
         {
             _unitOfWork.Complete();
         }
+
     }
 }
