@@ -22,35 +22,74 @@ namespace LibraryBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RolesDTO>>> Get()
         {
-            return await _rolesService.GetAll();
+            try
+            {
+                return Ok(await _rolesService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // GET: api/Roles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RolesDTO>> Get(int id)
         {
-            return await _rolesService.GetById(id);
+            try
+            {
+                return Ok(await _rolesService.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
         }
 
         // POST: api/Roles
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] RolesDTO entity)
         {
-            return await _rolesService.Add(entity);
+            try
+            {
+                await _rolesService.Add(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // PUT: api/Roles/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult> Put([FromBody] RolesDTO entity)
         {
-            return await _rolesService.Update(entity);
+            try
+            {
+                await _rolesService.Update(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<ActionResult> Delete(RolesDTO entity)
         {
-            return await _rolesService.Remove(entity);
+            try
+            {
+                await _rolesService.Remove(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

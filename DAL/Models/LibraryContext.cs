@@ -25,8 +25,8 @@ namespace DAL.Models
         {
             modelBuilder.Entity<Books>()
                 .HasOne(p => p.Genres)
-                .WithOne()
-                .HasForeignKey<Books>(k => k.GenresId)
+                .WithMany()
+                .HasForeignKey(k => k.GenresId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Books>(entity =>
@@ -62,8 +62,8 @@ namespace DAL.Models
             });
             modelBuilder.Entity<Users>()
                 .HasOne(x => x.Roles)
-                .WithOne()
-                .HasForeignKey<Users>(x => x.RolesId)
+                .WithMany()
+                .HasForeignKey(x => x.RolesId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -83,15 +83,15 @@ namespace DAL.Models
             });
             modelBuilder.Entity<BooksHistory>()
                .HasOne(x => x.Books)
-               .WithOne()
-               .HasForeignKey<BooksHistory>(x => x.BooksId)
+               .WithMany()
+               .HasForeignKey(x => x.BooksId)
                .IsRequired()
                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<BooksHistory>()
                 .HasOne(x => x.Users)
-                .WithOne()
-                .HasForeignKey<BooksHistory>(x => x.UsersId)
+                .WithMany()
+                .HasForeignKey(x => x.UsersId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
                 

@@ -103,7 +103,8 @@ namespace LibraryBack.Controllers
         {
             try
             {
-                return Ok(await _usersService.Remove(user));
+                await _usersService.Remove(user);
+                return Ok();
             }
             catch (Exception ex)
             {

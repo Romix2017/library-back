@@ -22,34 +22,72 @@ namespace LibraryBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BooksDTO>>> Get()
         {
-            return await _booksService.GetAll();
+            try
+            {
+                return Ok(await _booksService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
         // GET: api/Books/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BooksDTO>> Get(int id)
         {
-            return await _booksService.GetById(id);
+            try
+            {
+                return Ok(await _booksService.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // POST: api/Books
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] BooksDTO entity)
         {
-            return await _booksService.Add(entity);
+            try
+            {
+                await _booksService.Add(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // PUT: api/Books/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult> Put([FromBody] BooksDTO value)
         {
-            return await _booksService.Update(value);
+            try
+            {
+                await _booksService.Update(value);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<ActionResult> Delete(BooksDTO entity)
         {
-            return await _booksService.Remove(entity);
+            try
+            {
+                await _booksService.Remove(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

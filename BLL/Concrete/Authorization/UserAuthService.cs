@@ -17,7 +17,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-
+using CS = Core.Shared.Consts.Consts;
 namespace BLL.Concrete.Authorization
 {
     public class UserAuthService : IUserAuthService
@@ -57,6 +57,7 @@ namespace BLL.Concrete.Authorization
             Users newUser = Mapping.Mapper.Map<Users>(user);
             newUser.PasswordHash = passwordHash;
             newUser.PasswordSalt = passwordSalt;
+            newUser.RolesId = CS.DEFAULT_ROLE;
             await this._userService.Add(newUser);
             return user;
         }

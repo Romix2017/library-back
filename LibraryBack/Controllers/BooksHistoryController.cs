@@ -22,35 +22,73 @@ namespace LibraryBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BooksHistoryDTO>>> Get()
         {
-            return await _booksHistoryService.GetAll();
+            try
+            {
+                return Ok(await _booksHistoryService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // GET: api/BooksHistory/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BooksHistoryDTO>> Get(int id)
         {
-            return await _booksHistoryService.GetById(id);
+            try
+            {
+                return Ok(await _booksHistoryService.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // POST: api/BooksHistory
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] BooksHistoryDTO entity)
         {
-            return await _booksHistoryService.Add(entity);
+            try
+            {
+                await _booksHistoryService.Add(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // PUT: api/BooksHistory/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult> Put([FromBody] BooksHistoryDTO entity)
         {
-            return await _booksHistoryService.Update(entity);
+            try
+            {
+                await _booksHistoryService.Update(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<ActionResult> Delete(BooksHistoryDTO entity)
         {
-            return await _booksHistoryService.Remove(entity);
+            try
+            {
+                await _booksHistoryService.Remove(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

@@ -22,35 +22,73 @@ namespace LibraryBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GenresDTO>>> Get()
         {
-            return await _genresService.GetAll();
+            try
+            {
+                return Ok(await _genresService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // GET: api/Genres/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GenresDTO>> Get(int id)
         {
-            return await _genresService.GetById(id);
+            try
+            {
+                return Ok(await _genresService.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // POST: api/Genres
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] GenresDTO entity)
         {
-            return await _genresService.Add(entity);
+            try
+            {
+                await _genresService.Add(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // PUT: api/Genres/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult> Put([FromBody] GenresDTO entity)
         {
-            return await _genresService.Update(entity);
+            try
+            {
+                await _genresService.Update(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<ActionResult> Delete(GenresDTO entity)
         {
-            return await _genresService.Remove(entity);
+            try
+            {
+                await _genresService.Remove(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

@@ -22,35 +22,73 @@ namespace LibraryBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UsersDTO>>> Get()
         {
-            return await _usersService.GetAll();
+            try
+            {
+                return Ok(await _usersService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UsersDTO>> Get(int id)
         {
-            return await _usersService.GetById(id);
+            try
+            {
+                return Ok(await _usersService.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // POST: api/Users
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] UsersDTO entity)
         {
-            return await _usersService.Add(entity);
+            try
+            {
+                await _usersService.Add(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // PUT: api/Users/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult> Put([FromBody] UsersDTO entity)
         {
-            return await _usersService.Update(entity);
+            try
+            {
+                await _usersService.Update(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<ActionResult> Delete(UsersDTO entity)
         {
-            return await _usersService.Remove(entity);
+            try
+            {
+                await _usersService.Remove(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

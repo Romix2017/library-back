@@ -1,9 +1,7 @@
 ﻿using BLL.Contract;
 using BLL.Contract.Errors;
-using Core.Models.Logging;
 using Core.Shared.ErrorCodes;
 using Core.Shared.helpers;
-using Core.Shared.Helpers;
 using DAL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,13 +25,12 @@ namespace BLL.Concrete
             _errorService = errorService;
             _moduleCode = moduleCode;
         }
-        public async Task<ActionResult> Add(TDto entity)
+        public async Task Add(TDto entity)
         {
             try
             {
                 await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).AddDTO(entity));
                 SaveToDB();
-                return new OkResult();
             }
             catch (Exception ex)
             {
@@ -41,13 +38,12 @@ namespace BLL.Concrete
             }
         }
 
-        public async Task<ActionResult> AddRange(IEnumerable<TDto> entities)
+        public async Task AddRange(IEnumerable<TDto> entities)
         {
             try
             {
                 await Task.FromResult<IEnumerable<TDto>>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).AddRangeDTO(entities));
                 SaveToDB();
-                return new OkResult();
             }
             catch (Exception ex)
             {
@@ -55,11 +51,11 @@ namespace BLL.Concrete
             }
         }
 
-        public async Task<ActionResult<IEnumerable<TDto>>> GetAll()
+        public async Task<IEnumerable<TDto>> GetAll()
         {
             try
             {
-                return new OkObjectResult(await _unitOfWork.GetRepo<T, TDto>(typeof(TDto)).GetAllDTO());
+                return await _unitOfWork.GetRepo<T, TDto>(typeof(TDto)).GetAllDTO();
             }
             catch (Exception ex)
             {
@@ -67,11 +63,11 @@ namespace BLL.Concrete
             }
         }
 
-        public async Task<ActionResult<TDto>> GetById(int id)
+        public async Task<TDto> GetById(int id)
         {
             try
             {
-                return new OkObjectResult(await _unitOfWork.GetRepo<T, TDto>(typeof(TDto)).GetById(id));
+                return await _unitOfWork.GetRepo<T, TDto>(typeof(TDto)).GetByIdDTO(id);
             }
             catch (Exception ex)
             {
@@ -79,13 +75,12 @@ namespace BLL.Concrete
             }
         }
 
-        public async Task<ActionResult> Remove(TDto entity)
+        public async Task Remove(TDto entity)
         {
             try
             {
                 await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).RemoveDTO(entity));
                 SaveToDB();
-                return new OkResult();
             }
             catch (Exception ex)
             {
@@ -93,13 +88,12 @@ namespace BLL.Concrete
             }
         }
 
-        public async Task<ActionResult> RemoveRange(IEnumerable<TDto> entities)
+        public async Task RemoveRange(IEnumerable<TDto> entities)
         {
             try
             {
                 await Task.FromResult<IEnumerable<TDto>>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).RemoveRangeDTO(entities));
                 SaveToDB();
-                return new OkResult();
             }
             catch (Exception ex)
             {
@@ -107,13 +101,12 @@ namespace BLL.Concrete
             }
         }
 
-        public async Task<ActionResult> Update(TDto entity)
+        public async Task Update(TDto entity)
         {
             try
             {
                 await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).UpdateDTO(entity));
                 SaveToDB();
-                return new OkResult();
             }
             catch (Exception ex)
             {
@@ -124,6 +117,5 @@ namespace BLL.Concrete
         {
             _unitOfWork.Complete();
         }
-
     }
 }
