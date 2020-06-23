@@ -6,7 +6,8 @@ using System.Text;
 
 namespace DAL.Contracts
 {
-    public interface IBooksRepository: IRepository<Books, BooksDTO>
+    public interface IBooksRepository : IRepository<Books, BooksDTO>
     {
+        int RemoveById(int id);
     }
 }

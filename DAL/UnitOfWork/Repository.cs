@@ -13,9 +13,11 @@ namespace DAL.UnitOfWork
     public class Repository<T, TDto> : IRepository<T, TDto> where T : class where TDto : class
     {
         internal readonly DbSet<T> _entities;
+        private readonly DbContext _context;
         public Repository(DbContext context)
         {
             _entities = context.Set<T>();
+            _context = context;
         }
         public T Add(T entity)
         {
@@ -75,9 +77,11 @@ namespace DAL.UnitOfWork
         }
         public TDto AddDTO(TDto entity)
         {
-            var res = Mapping.Mapper.Map<T>(entity);
+            T res = Mapping.Mapper.Map<T>(entity);
             _entities.Add(res);
-            return entity;
+            this._context.SaveChanges();
+            var resDto = Mapping.Mapper.Map<TDto>(res);
+            return resDto;
         }
         public IEnumerable<TDto> AddRangeDTO(IEnumerable<TDto> entities)
         {

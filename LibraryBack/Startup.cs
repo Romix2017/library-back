@@ -48,7 +48,9 @@ namespace LibraryBack
                 options.AddPolicy(name: CF.DEFAULT_CORS_POLICY,
                                   builder =>
                                   {
-                                      builder.WithOrigins(settings.CorsPolicy);
+                                      builder.WithOrigins(settings.CorsPolicy)
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod();
                                   });
             });
             services.AddControllers();
@@ -101,7 +103,7 @@ namespace LibraryBack
                    ValidateAudience = false
                };
            });
-           
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

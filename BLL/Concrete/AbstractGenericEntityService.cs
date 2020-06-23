@@ -25,12 +25,11 @@ namespace BLL.Concrete
             _errorService = errorService;
             _moduleCode = moduleCode;
         }
-        public async Task Add(TDto entity)
+        public async Task<TDto> Add(TDto entity)
         {
             try
             {
-                await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).AddDTO(entity));
-                SaveToDB();
+                return await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).AddDTO(entity));
             }
             catch (Exception ex)
             {

@@ -51,8 +51,7 @@ namespace LibraryBack.Controllers
         {
             try
             {
-                await _booksService.Add(entity);
-                return Ok();
+                return Ok(await _booksService.Add(entity));
             }
             catch (Exception ex)
             {
@@ -76,12 +75,12 @@ namespace LibraryBack.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete]
-        public async Task<ActionResult> Delete(BooksDTO entity)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                await _booksService.Remove(entity);
+                await _booksService.RemoveById(id);
                 return Ok();
             }
             catch (Exception ex)

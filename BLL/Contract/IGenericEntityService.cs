@@ -9,7 +9,7 @@ namespace BLL.Contract
 {
     public interface IGenericEntityService<TDto>
     {
-        Task Add(TDto entity);
+        Task<TDto> Add(TDto entity);
         Task AddRange(IEnumerable<TDto> entities);
         Task<IEnumerable<TDto>> GetAll();
         Task<TDto> GetById(int id);
