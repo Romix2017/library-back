@@ -52,8 +52,7 @@ namespace LibraryBack.Controllers
         {
             try
             {
-                await _genresService.Add(entity);
-                return Ok();
+                return Ok(await _genresService.Add(entity));
             }
             catch (Exception ex)
             {

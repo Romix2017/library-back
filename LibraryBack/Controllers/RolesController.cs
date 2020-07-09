@@ -53,8 +53,7 @@ namespace LibraryBack.Controllers
         {
             try
             {
-                await _rolesService.Add(entity);
-                return Ok();
+                return Ok(await _rolesService.Add(entity));
             }
             catch (Exception ex)
             {
