@@ -34,7 +34,7 @@ namespace LibraryBack.Controllers
                 return Ok(new
                 {
                     loginModel.user.Id,
-                    loginModel.user.Username,
+                    loginModel.user.UserName,
                     loginModel.user.FirstName,
                     loginModel.user.LastName,
                     Token = loginModel.tokenString

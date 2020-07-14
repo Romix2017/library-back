@@ -21,5 +21,17 @@ namespace BLL.Concrete
             : base(unitOfWork, errorService, ModulesIndex.BOOKS_HISTORY_SERVICE)
         {
         }
+        public async Task RemoveById(int id)
+        {
+            try
+            {
+                await Task.FromResult<int>(_unitOfWork.BooksHistoryRepo.RemoveById(id));
+                SaveToDB();
+            }
+            catch (Exception ex)
+            {
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.REMOVE);
+            }
+        }
     }
 }

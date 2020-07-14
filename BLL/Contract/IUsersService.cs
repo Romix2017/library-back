@@ -13,5 +13,6 @@ namespace BLL.Contract
         Task<Users> GetUserByName(string name);
         Task<Users> Add(Users entity);
         Task<Users> UpdateEntity(Users entity);
+        Task RemoveById(int id);
     }
 }

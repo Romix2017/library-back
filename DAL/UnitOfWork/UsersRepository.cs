@@ -20,7 +20,15 @@ namespace DAL.UnitOfWork
         }
         public async Task<Users> GetUserByName(string name)
         {
-            return await base._entities.Where(x => x.Username == name).FirstOrDefaultAsync();
+            return await base._entities.Where(x => x.UserName == name).FirstOrDefaultAsync();
+        }
+
+        public int RemoveById(int id)
+        {
+            var user = new Users { Id = id };
+            _entities.Attach(user);
+            _entities.Remove(user);
+            return id;
         }
     }
 }

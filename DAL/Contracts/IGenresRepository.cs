@@ -8,5 +8,6 @@ namespace DAL.Contracts
 {
     public interface IGenresRepository : IRepository<Genres, GenresDTO>
     {
+        int RemoveById(int id);
     }
 }

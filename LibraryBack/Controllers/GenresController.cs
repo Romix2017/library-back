@@ -76,12 +76,12 @@ namespace LibraryBack.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete]
-        public async Task<ActionResult> Delete(GenresDTO entity)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                await _genresService.Remove(entity);
+                await _genresService.RemoveById(id);
                 return Ok();
             }
             catch (Exception ex)

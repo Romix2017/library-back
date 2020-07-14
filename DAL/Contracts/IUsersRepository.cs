@@ -10,5 +10,6 @@ namespace DAL.Contracts
     public interface IUsersRepository : IRepository<Users, UsersDTO>
     {
         Task<Users> GetUserByName(string name);
+        int RemoveById(int id);
     }
 }

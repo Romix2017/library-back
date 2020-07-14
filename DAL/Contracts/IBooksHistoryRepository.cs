@@ -8,5 +8,6 @@ namespace DAL.Contracts
 {
     public interface IBooksHistoryRepository : IRepository<BooksHistory, BooksHistoryDTO>
     {
+        int RemoveById(int id);
     }
 }

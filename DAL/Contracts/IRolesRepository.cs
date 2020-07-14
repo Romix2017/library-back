@@ -8,5 +8,6 @@ namespace DAL.Contracts
 {
     public interface IRolesRepository : IRepository<Roles, RolesDTO>
     {
+        int RemoveById(int id);
     }
 }

@@ -59,5 +59,17 @@ namespace BLL.Concrete
                 throw base._errorService.CreateException(ex, this._moduleCode, MethodsIndex.UPDATE_ENTITY);
             }
         }
+        public async Task RemoveById(int id)
+        {
+            try
+            {
+                await Task.FromResult<int>(_unitOfWork.UsersRepo.RemoveById(id));
+                SaveToDB();
+            }
+            catch (Exception ex)
+            {
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.REMOVE);
+            }
+        }
     }
 }

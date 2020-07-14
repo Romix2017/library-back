@@ -10,6 +10,6 @@ namespace BLL.Contract
 {
     public interface IBooksHistoryService : IGenericEntityService<BooksHistoryDTO>
     {
+        Task RemoveById(int id);
     }
-
 }

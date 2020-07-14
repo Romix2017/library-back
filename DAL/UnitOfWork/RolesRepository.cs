@@ -14,5 +14,13 @@ namespace DAL.UnitOfWork
         {
             _libraryContext = context;
         }
+
+        public int RemoveById(int id)
+        {
+            var role = new Roles { Id = id };
+            _entities.Attach(role);
+            _entities.Remove(role);
+            return id;
+        }
     }
 }

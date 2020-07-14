@@ -14,5 +14,13 @@ namespace DAL.UnitOfWork
         {
             _libraryContext = context;
         }
+
+        public int RemoveById(int id)
+        {
+            var genre = new Genres { Id = id };
+            _entities.Attach(genre);
+            _entities.Remove(genre);
+            return id;
+        }
     }
 }

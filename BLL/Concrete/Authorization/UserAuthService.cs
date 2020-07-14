@@ -63,14 +63,14 @@ namespace BLL.Concrete.Authorization
         }
         public async Task<UsersDTO> Update(UpdateAuthUserDTO user)
         {
-            var userForUpdate = await _userService.GetUserByName(user.Username);
+            var userForUpdate = await _userService.GetUserByName(user.UserName);
             if (userForUpdate == null)
                 throw new AppException("User not found");
-            if (!string.IsNullOrWhiteSpace(userForUpdate.Username) && userForUpdate.Username != user.Username)
+            if (!string.IsNullOrWhiteSpace(userForUpdate.UserName) && userForUpdate.UserName != user.UserName)
             {
-                if (await _userService.GetUserByName(user.Username) != null)
-                    throw new AppException("Username " + user.Username + " is already taken");
-                userForUpdate.Username = user.Username;
+                if (await _userService.GetUserByName(user.UserName) != null)
+                    throw new AppException("Username " + user.UserName + " is already taken");
+                userForUpdate.UserName = user.UserName;
             }
             if (!string.IsNullOrWhiteSpace(user.FirstName))
                 userForUpdate.FirstName = user.FirstName;
