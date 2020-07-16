@@ -12,8 +12,8 @@ namespace DAL.Models
         public Books Books { get; set; }
         public int UsersId { get; set; }
         public Users Users { get; set; }
-        public DateTime DateGiven { get; set; }
-        public DateTime DateReturned { get; set; }
+        public DateTime? DateGiven { get; set; }
+        public DateTime? DateReturned { get; set; }
         public string Notes { get; set; }
     }
 }

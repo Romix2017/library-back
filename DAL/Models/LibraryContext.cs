@@ -40,8 +40,7 @@ namespace DAL.Models
                 .HasMaxLength(200);
 
                 entity.Property(e => e.PublishingDate)
-                .HasColumnType("datetime2")
-                .IsRequired();
+                .HasColumnType("datetime2");
 
                 entity.Property(e => e.Notation)
                 .HasMaxLength(500);

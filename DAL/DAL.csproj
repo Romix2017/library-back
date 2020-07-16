@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20200529062854_SetRequiredFKBooks.Designer.cs" />
     <Compile Remove="Migrations\20200529063453_AddDeleteBehaviorToBooks.cs" />
     <Compile Remove="Migrations\20200529063453_AddDeleteBehaviorToBooks.Designer.cs" />
+    <Compile Remove="Migrations\20200716083816_NullableDatesForUsersAndBooks.cs" />
+    <Compile Remove="Migrations\20200716083816_NullableDatesForUsersAndBooks.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

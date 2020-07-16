@@ -11,7 +11,7 @@ namespace DAL.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
         public int RolesId { get; set; }
         public Roles Roles { get; set; }
         public byte[] PasswordHash { get; set; }
