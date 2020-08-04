@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DAL.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,20 +29,16 @@ namespace DAL.Models
                 .WithMany()
                 .HasForeignKey(k => k.GenresId)
                 .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Books>(entity =>
             {
                 entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(200);
-
                 entity.Property(e => e.Author)
                 .IsRequired()
                 .HasMaxLength(200);
-
                 entity.Property(e => e.PublishingDate)
                 .HasColumnType("datetime2");
-
                 entity.Property(e => e.Notation)
                 .HasMaxLength(500);
             });
@@ -55,7 +52,6 @@ namespace DAL.Models
                 entity.Property(e => e.UserName)
                 .HasMaxLength(100)
                 .IsRequired();
-
                 entity.Property(e => e.DOB)
                 .HasColumnType("datetime2");
             });
@@ -65,14 +61,12 @@ namespace DAL.Models
                 .HasForeignKey(x => x.RolesId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Genres>(entity =>
             {
                 entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .IsRequired();
             });
-
             modelBuilder.Entity<BooksHistory>(entity =>
             {
                 entity.Property(e => e.DateGiven)
@@ -86,14 +80,13 @@ namespace DAL.Models
                .HasForeignKey(x => x.BooksId)
                .IsRequired()
                .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<BooksHistory>()
                 .HasOne(x => x.Users)
                 .WithMany()
                 .HasForeignKey(x => x.UsersId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
-                
+            modelBuilder.Seed();
         }
     }
 }

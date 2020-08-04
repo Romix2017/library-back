@@ -9,6 +9,7 @@ using BLL.Concrete.Errors;
 using BLL.Contract;
 using BLL.Contract.Authorization;
 using BLL.Contract.Errors;
+using BLL.Extensions;
 using Core.Shared.Settings;
 using DAL.Contracts;
 using DAL.UnitOfWork;
@@ -59,15 +60,11 @@ namespace LibraryBack
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
             //TODO: change getconnectionstring to IOptions
-            services.AddScoped<IUnitOfWork>(s => new UnitOfWork(_configuration.GetConnectionString(CF.DATABASE_CONNECTION)));
-            services.AddScoped<IBooksHistoryService, BooksHistoryService>();
-            services.AddScoped<IBooksService, BooksService>();
-            services.AddScoped<IGenresService, GenresService>();
-            services.AddScoped<IRolesService, RolesService>();
-            services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IUserAuthService, UserAuthService>();
-            services.AddScoped<IUserAuthService, UserAuthService>();
+           
+            
             services.AddSingleton<IErrorService, ErrorService>();
+            services.RegisterBllServices();
+          
             //Jwt Authentication
 
             var key = Encoding.UTF8.GetBytes(settings.Secret);

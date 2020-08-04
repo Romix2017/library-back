@@ -9,10 +9,10 @@ namespace DAL.UnitOfWork
 {
     internal class GenresRepository : Repository<Genres, GenresDTO>, IGenresRepository
     {
-        private readonly LibraryContext _libraryContext;
+        //private readonly LibraryContext _libraryContext;
         public GenresRepository(LibraryContext context) : base(context)
         {
-            _libraryContext = context;
+            //_libraryContext = context;
         }
 
         public int RemoveById(int id)
@@ -20,6 +20,7 @@ namespace DAL.UnitOfWork
             var genre = new Genres { Id = id };
             _entities.Attach(genre);
             _entities.Remove(genre);
+            this.Complete();
             return id;
         }
     }

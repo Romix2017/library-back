@@ -13,6 +13,8 @@
     <Compile Remove="Migrations\20200529063453_AddDeleteBehaviorToBooks.Designer.cs" />
     <Compile Remove="Migrations\20200716083816_NullableDatesForUsersAndBooks.cs" />
     <Compile Remove="Migrations\20200716083816_NullableDatesForUsersAndBooks.Designer.cs" />
+    <Compile Remove="Migrations\20200728141314_AddSeedUsersInfo.cs" />
+    <Compile Remove="Migrations\20200728141314_AddSeedUsersInfo.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

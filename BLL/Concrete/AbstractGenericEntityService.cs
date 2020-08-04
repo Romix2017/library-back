@@ -114,7 +114,11 @@ namespace BLL.Concrete
         }
         public void SaveToDB()
         {
-            _unitOfWork.Complete();
+            _unitOfWork.GetRepo<T, TDto>(typeof(TDto)).Complete();
+        }
+        public void DisposeDB()
+        {
+            _unitOfWork.GetRepo<T, TDto>(typeof(TDto)).Dispose();
         }
     }
 }

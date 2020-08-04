@@ -9,5 +9,6 @@ namespace Core.Models.Auth
     {
         public string tokenString { get; set; }
         public UsersDTO user { get; set; }
+        public string refreshToken { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL.Contracts
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
         IBooksRepository BooksRepo { get; }
         IBooksHistoryRepository BooksHistoryRepo { get; }
@@ -12,6 +12,5 @@ namespace DAL.Contracts
         IRolesRepository RolesRepo { get; }
         IUsersRepository UsersRepo { get; }
         IRepository<T, TDto> GetRepo<T, TDto>(Type entity) where T : class where TDto : class;
-        int Complete();
     }
 }

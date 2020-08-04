@@ -37,7 +37,8 @@ namespace LibraryBack.Controllers
                     loginModel.user.UserName,
                     loginModel.user.FirstName,
                     loginModel.user.LastName,
-                    Token = loginModel.tokenString
+                    Token = loginModel.tokenString,
+                    RefreshToken = loginModel.refreshToken
                 });
             }
             catch (Exception ex)
@@ -45,7 +46,42 @@ namespace LibraryBack.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        [HttpPost]
+        [Route("refresh")]
+        public async Task<IActionResult> Refresh(LoginModel loginModel)
+        {
+            try
+            {
+                LoginModel refreshedLoginModel = await _userAuthService.Refresh(loginModel);
+                return Ok(new
+                {
+                    loginModel.user.Id,
+                    loginModel.user.UserName,
+                    loginModel.user.FirstName,
+                    loginModel.user.LastName,
+                    Token = refreshedLoginModel.tokenString,
+                    RefreshToken = refreshedLoginModel.refreshToken
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+        [HttpPost, Authorize]
+        [Route("revoke")]
+        public async Task<IActionResult> Revoke(LoginModel loginModel)
+        {
+            try
+            {
+                await _userAuthService.Revoke(loginModel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO registerModel)
@@ -60,6 +96,9 @@ namespace LibraryBack.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        //[HttpPost]
+        //[Route("refresh")]
+        //public IActionResult Refresh()
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

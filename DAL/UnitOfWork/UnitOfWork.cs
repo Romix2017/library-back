@@ -2,6 +2,7 @@
 using DAL.Contracts;
 using DAL.Factories.ContextOptionsBuilderFactory;
 using DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,16 +13,22 @@ namespace DAL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly LibraryContext _context;
+        //private readonly LibraryContext _context;
         // public UnitOfWork(ChurchDBContext context)
-        public UnitOfWork(string connectionString)
+        public UnitOfWork(IBooksRepository booksRepository,
+            IBooksHistoryRepository booksHistoryRepository,
+            IGenresRepository genresRepository,
+            IRolesRepository rolesRepository,
+            IUsersRepository usersRepository
+            )
         {
-            _context = new LibraryContext(new ConcreteContextOptionsCreator().Create(connectionString));
-            BooksRepo = new BooksRepository(_context);
-            BooksHistoryRepo = new BooksHistoryRepository(_context);
-            GenresRepo = new GenresRepository(_context);
-            RolesRepo = new RolesRepository(_context);
-            UsersRepo = new UsersRepository(_context);
+            // _context = context;//new LibraryContext(new ConcreteContextOptionsCreator().Create(connectionString));
+            // _context.Database.Migrate();
+            BooksRepo = booksRepository;
+            BooksHistoryRepo = booksHistoryRepository;
+            GenresRepo = genresRepository;
+            RolesRepo = rolesRepository;
+            UsersRepo = usersRepository;
         }
 
         public IBooksRepository BooksRepo { get; }
@@ -48,16 +55,6 @@ namespace DAL.UnitOfWork
             }
         }
 
-        public int Complete()
-        {
-            using (_context)
-            {
-                return _context.SaveChanges();
-            }
-        }
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+ 
     }
 }

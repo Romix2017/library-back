@@ -13,5 +13,7 @@ namespace BLL.Contract.Authorization
         Task<RegisterDTO> Create(RegisterDTO user, string password);
         Task<UsersDTO> Update(UpdateAuthUserDTO user);
         Task<LoginModel> IssueToken(LoginDTO loginDTO);
+        Task<LoginModel> Refresh(LoginModel loginModel);
+        Task Revoke(LoginModel loginModel);
     }
 }

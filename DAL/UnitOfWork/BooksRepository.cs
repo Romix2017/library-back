@@ -10,16 +10,17 @@ namespace DAL.UnitOfWork
 {
     internal class BooksRepository : Repository<Books, BooksDTO>, IBooksRepository
     {
-        private readonly LibraryContext _libraryContext;
+        //private readonly LibraryContext _libraryContext;
         public BooksRepository(LibraryContext context) : base(context)
         {
-            _libraryContext = context;
+            //_libraryContext = context;
         }
         public int RemoveById(int id)
         {
             var book = new Books { Id = id };
             _entities.Attach(book);
             _entities.Remove(book);
+            this.Complete();
             return id;
         }
     }

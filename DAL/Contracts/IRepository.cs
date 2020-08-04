@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Contracts
 {
-    public interface IRepository<T, TDto> where T : class where TDto : class
+    public interface IRepository<T, TDto> : IDisposable where T : class where TDto : class
     {
         //Ent
         Task<T> GetById(int id);
@@ -25,5 +25,6 @@ namespace DAL.Contracts
         TDto RemoveDTO(TDto entity);
         IEnumerable<TDto> RemoveRangeDTO(IEnumerable<TDto> entities);
         TDto UpdateDTO(TDto entity);
+        int Complete();
     }
 }
