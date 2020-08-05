@@ -11,5 +11,7 @@ namespace DAL.Contracts
     {
         Task<Users> GetUserByName(string name);
         int RemoveById(int id);
+        Task<Users> GetUserByNameWithRole(string name);
+        Task<Users> GetUserById(string id);
     }
 }

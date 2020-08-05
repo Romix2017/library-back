@@ -14,6 +14,7 @@ using Core.Shared.Settings;
 using DAL.Contracts;
 using DAL.UnitOfWork;
 using LibraryBack.Extensions;
+using LibraryBack.Shared.Consts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,11 +61,11 @@ namespace LibraryBack
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
             //TODO: change getconnectionstring to IOptions
-           
-            
+
+
             services.AddSingleton<IErrorService, ErrorService>();
             services.RegisterBllServices();
-          
+
             //Jwt Authentication
 
             var key = Encoding.UTF8.GetBytes(settings.Secret);
@@ -100,6 +101,11 @@ namespace LibraryBack
                    ValidateAudience = false
                };
            });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policy.MainUsersOnly, policy =>
+                policy.RequireRole(Role.Admin, Role.Superuser));
+            });
 
         }
 

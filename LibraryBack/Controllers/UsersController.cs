@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL.Contract;
+using BLL.Contract.Authorization;
 using Core.DTO;
+using LibraryBack.Shared.Consts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +14,19 @@ namespace LibraryBack.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
-        public UsersController(IUsersService usersService)
+        private readonly IUserAuthService _usersAuthService;
+        public UsersController(IUsersService usersService, IUserAuthService usersAuthService)
         {
             _usersService = usersService;
+            _usersAuthService = usersAuthService;
+
         }
         // GET: api/Users
+        [Authorize(Policy = Policy.MainUsersOnly)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UsersDTO>>> Get()
         {
@@ -53,7 +60,7 @@ namespace LibraryBack.Controllers
         {
             try
             {
-                return Ok(await _usersService.Add(entity));
+                return Ok(await _usersAuthService.CreateFull(entity));
             }
             catch (Exception ex)
             {

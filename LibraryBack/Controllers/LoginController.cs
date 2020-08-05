@@ -96,9 +96,6 @@ namespace LibraryBack.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-        //[HttpPost]
-        //[Route("refresh")]
-        //public IActionResult Refresh()
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

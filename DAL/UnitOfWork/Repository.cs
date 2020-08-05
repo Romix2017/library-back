@@ -43,20 +43,17 @@ namespace DAL.UnitOfWork
         public async Task<IEnumerable<TDto>> Find(Expression<Func<T, bool>> predicate)
         {
             var res = await _entities.Where(predicate).ToListAsync();
-            Dispose();
             return Mapping.Mapper.Map<IEnumerable<TDto>>(res);
         }
 
         public async Task<IEnumerable<T>> GetAll()
         {
             var res = await _entities.ToListAsync();
-            Dispose();
             return res;
         }
         public async Task<T> GetById(int id)
         {
             var res = await _entities.FindAsync(id);
-            Dispose();
             return res;
         }
 
@@ -78,13 +75,11 @@ namespace DAL.UnitOfWork
         public async Task<TDto> GetByIdDTO(int id)
         {
             var res = await _entities.FindAsync(id);
-            Dispose();
             return Mapping.Mapper.Map<TDto>(res);
         }
         public async Task<IEnumerable<TDto>> GetAllDTO()
         {
             var res = await _entities.ToListAsync();
-            Dispose();
             return Mapping.Mapper.Map<IEnumerable<TDto>>(res);
         }
         public TDto AddDTO(TDto entity)

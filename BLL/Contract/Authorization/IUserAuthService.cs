@@ -15,5 +15,6 @@ namespace BLL.Contract.Authorization
         Task<LoginModel> IssueToken(LoginDTO loginDTO);
         Task<LoginModel> Refresh(LoginModel loginModel);
         Task Revoke(LoginModel loginModel);
+        Task<UsersDTO> CreateFull(UsersDTO user);
     }
 }

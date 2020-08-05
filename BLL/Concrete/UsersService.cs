@@ -33,12 +33,34 @@ namespace BLL.Concrete
                 throw base._errorService.CreateException(ex, this._moduleCode, MethodsIndex.GET_USER_BY_NAME);
             }
         }
+        public async Task<Users> GetUserById(string id)
+        {
+            try
+            {
+                return await _unitOfWork.UsersRepo.GetUserById(id);
+            }
+            catch (Exception ex)
+            {
+                throw base._errorService.CreateException(ex, this._moduleCode, MethodsIndex.GET_USER_BY_NAME);
+            }
+        }
+        public async Task<Users> GetUserByNameWithRole(string name)
+        {
+            try
+            {
+                return await _unitOfWork.UsersRepo.GetUserByNameWithRole(name);
+            }
+            catch (Exception ex)
+            {
+                throw base._errorService.CreateException(ex, this._moduleCode, MethodsIndex.GET_USER_BY_NAME);
+            }
+        }
         public async Task<Users> Add(Users entity)
         {
             try
             {
                 var res = await Task.FromResult<Users>(_unitOfWork.UsersRepo.Add(entity));
-                SaveToDB();
+                //SaveToDB();
                 return res;
             }
             catch (Exception ex)

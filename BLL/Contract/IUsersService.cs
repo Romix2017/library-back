@@ -14,5 +14,7 @@ namespace BLL.Contract
         Task<Users> Add(Users entity);
         Task<Users> UpdateEntity(Users entity);
         Task RemoveById(int id);
+        Task<Users> GetUserByNameWithRole(string name);
+        Task<Users> GetUserById(string id);
     }
 }

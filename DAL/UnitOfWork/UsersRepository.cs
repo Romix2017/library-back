@@ -13,18 +13,24 @@ namespace DAL.UnitOfWork
 {
     internal class UsersRepository : Repository<Users, UsersDTO>, IUsersRepository
     {
-        //private readonly LibraryContext _libraryContext;
         public UsersRepository(LibraryContext context) : base(context)
         {
-            //_libraryContext = context;
         }
         public async Task<Users> GetUserByName(string name)
         {
             var res = await base._entities.Where(x => x.UserName == name).FirstOrDefaultAsync();
-            this.Dispose();
             return res;
         }
-
+        public async Task<Users> GetUserById(string id)
+        {
+            var res = await base._entities.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();
+            return res;
+        }
+        public async Task<Users> GetUserByNameWithRole(string name)
+        {
+            var res = await base._entities.Where(x => x.UserName == name).Include(x => x.Roles).FirstOrDefaultAsync();
+            return res;
+        }
         public int RemoveById(int id)
         {
             var user = new Users { Id = id };

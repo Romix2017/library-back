@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
@@ -55,7 +56,7 @@ namespace BLL.Concrete.Authorization
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            Users user = await this._userService.GetUserByName(username);
+            Users user = await this._userService.GetUserByNameWithRole(username);
 
             if (user == null)
                 return null;
@@ -77,6 +78,19 @@ namespace BLL.Concrete.Authorization
             newUser.PasswordHash = model.passwordHash;
             newUser.PasswordSalt = model.passwordSalt;
             newUser.RolesId = CS.DEFAULT_ROLE;
+            await this._userService.Add(newUser);
+            return user;
+        }
+        public async Task<UsersDTO> CreateFull(UsersDTO user)
+        {
+            if (string.IsNullOrWhiteSpace(user.Password))
+                throw new AppException("Password is required");
+            if (await _userService.GetUserByName(user.UserName) != null)
+                throw new AppException("Username \"" + user.UserName + "\" is already taken");
+            PasswordModel model = CreatePasswordHashModel(user.Password);
+            Users newUser = Mapping.Mapper.Map<Users>(user);
+            newUser.PasswordHash = model.passwordHash;
+            newUser.PasswordSalt = model.passwordSalt;
             await this._userService.Add(newUser);
             return user;
         }
@@ -115,7 +129,9 @@ namespace BLL.Concrete.Authorization
                 throw new AppException("Username \"" + loginDTO.UserName + "\" is wrong");
             IEnumerable<Claim> claimsList = new Claim[]
             {
-                new Claim(ClaimTypes.Name, user.Id.ToString())
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
+                new Claim(ClaimTypes.UserData, user.UserName),
+                new Claim(ClaimTypes.Role, user.Roles.Name)
             };
             var accessToken = GenerateAccessToken(claimsList);
             var refreshToken = GenerateRefreshToken();
@@ -138,7 +154,7 @@ namespace BLL.Concrete.Authorization
             string refreshToken = loginModel.refreshToken;
             var principal = GetPrincipalFromExpiredToken(accessToken);
             var username = principal.Identity.Name;
-            var user = await _userService.GetUserByName(username);
+            var user = await _userService.GetUserById(username);
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
                 throw new AppException("Invalid client request");
@@ -154,7 +170,7 @@ namespace BLL.Concrete.Authorization
         {
             string accessToken = loginModel.tokenString;
             var principal = GetPrincipalFromExpiredToken(accessToken);
-            var user = await _userService.GetUserByName(principal.Identity.Name);
+            var user = await _userService.GetUserById(principal.Identity.Name);
             user.RefreshToken = null;
             _unitOfWork.UsersRepo.Complete();
         }
@@ -172,7 +188,7 @@ namespace BLL.Concrete.Authorization
             SecurityToken securityToken;
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            if (jwtSecurityToken == null)
                 throw new SecurityTokenException("Invalid token");
             return principal;
         }
