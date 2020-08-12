@@ -42,7 +42,6 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<IEnumerable<TDto>>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).AddRangeDTO(entities));
-                SaveToDB();
             }
             catch (Exception ex)
             {
@@ -79,7 +78,6 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).RemoveDTO(entity));
-                SaveToDB();
             }
             catch (Exception ex)
             {
@@ -92,7 +90,6 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<IEnumerable<TDto>>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).RemoveRangeDTO(entities));
-                SaveToDB();
             }
             catch (Exception ex)
             {
@@ -100,12 +97,11 @@ namespace BLL.Concrete
             }
         }
 
-        public async Task Update(TDto entity)
+        public virtual async Task Update(TDto entity)
         {
             try
             {
                 await Task.FromResult<TDto>(_unitOfWork.GetRepo<T, TDto>(typeof(TDto)).UpdateDTO(entity));
-                SaveToDB();
             }
             catch (Exception ex)
             {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace LibraryBack.Shared.Consts
+namespace Core.Shared.Consts
 {
-    public static class Role
+    public class Role
     {
         public const string Admin = "Admin";
         public const string Superuser = "Superuser";
+        public const string User = "User";
     }
 }

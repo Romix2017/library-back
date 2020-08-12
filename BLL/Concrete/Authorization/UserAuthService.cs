@@ -1,4 +1,5 @@
 ﻿using BLL.Concrete.Models;
+using BLL.Consts;
 using BLL.Contract;
 using BLL.Contract.Authorization;
 using Core.DTO;
@@ -130,7 +131,7 @@ namespace BLL.Concrete.Authorization
             IEnumerable<Claim> claimsList = new Claim[]
             {
                 new Claim(ClaimTypes.Name, user.Id.ToString()),
-                new Claim(ClaimTypes.UserData, user.UserName),
+                new Claim(ClaimNames.UserName, user.UserName),
                 new Claim(ClaimTypes.Role, user.Roles.Name)
             };
             var accessToken = GenerateAccessToken(claimsList);

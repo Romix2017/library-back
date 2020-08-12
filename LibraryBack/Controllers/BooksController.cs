@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BLL.Contract;
 using Core.DTO;
+using LibraryBack.Shared.Consts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace LibraryBack.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = Policy.LimitedUsersGroup)]
     public class BooksController : ControllerBase
     {
         private readonly IBooksService _booksService;
@@ -49,6 +50,7 @@ namespace LibraryBack.Controllers
 
         // POST: api/Books
         [HttpPost]
+        [Authorize(Policy = Policy.AdminUsersGroup)]
         public async Task<ActionResult> Post([FromBody] BooksDTO entity)
         {
             try
@@ -63,6 +65,7 @@ namespace LibraryBack.Controllers
 
         // PUT: api/Books/5
         [HttpPut]
+        [Authorize(Policy = Policy.AdminUsersGroup)]
         public async Task<ActionResult> Put([FromBody] BooksDTO value)
         {
             try
@@ -78,6 +81,7 @@ namespace LibraryBack.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policy.AdminUsersGroup)]
         public async Task<ActionResult> Delete(int id)
         {
             try

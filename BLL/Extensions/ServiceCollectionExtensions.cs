@@ -1,7 +1,9 @@
 ﻿using BLL.Concrete;
 using BLL.Concrete.Authorization;
+using BLL.Concrete.Errors;
 using BLL.Contract;
 using BLL.Contract.Authorization;
+using BLL.Contract.Errors;
 using DAL.Contracts;
 using DAL.Extensions;
 using DAL.UnitOfWork;
@@ -24,6 +26,7 @@ namespace BLL.Extensions
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUserAuthService, UserAuthService>();
             services.AddTransient<IUserAuthService, UserAuthService>();
+            services.AddSingleton<IErrorService, ErrorService>();
             services.RegisterContext();
             return services;
         }

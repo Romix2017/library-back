@@ -7,6 +7,10 @@ namespace LibraryBack.Shared.Consts
 {
     public static class Policy
     {
-        public const string MainUsersOnly = "MainUsersOnly";
+        public const string MainUsersGroup = "MainUsersGroup";
+        public const string RegularUsersGroup = "RegularUsersGroup";
+        public const string SupremeUsersGroup = "SupremeUsersGroup";
+        public const string AdminUsersGroup = "AdminUsersGroup";
+        public const string LimitedUsersGroup = "LimitedUsersGroup";
     }
 }

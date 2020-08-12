@@ -31,6 +31,11 @@ namespace DAL.UnitOfWork
             var res = await base._entities.Where(x => x.UserName == name).Include(x => x.Roles).FirstOrDefaultAsync();
             return res;
         }
+        public async Task<Users> GetUserByIdWithRole(int id)
+        {
+            var res = await base._entities.Where(x => x.Id == id).Include(x => x.Roles).AsNoTracking().FirstOrDefaultAsync();
+            return res;
+        }
         public int RemoveById(int id)
         {
             var user = new Users { Id = id };

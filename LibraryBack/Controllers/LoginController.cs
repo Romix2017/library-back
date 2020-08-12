@@ -6,6 +6,7 @@ using BLL.Contract;
 using BLL.Contract.Authorization;
 using Core.DTO;
 using Core.Models.Auth;
+using LibraryBack.Shared.Consts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +69,7 @@ namespace LibraryBack.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-        [HttpPost, Authorize]
+        [HttpPost]
         [Route("revoke")]
         public async Task<IActionResult> Revoke(LoginModel loginModel)
         {
@@ -96,7 +97,7 @@ namespace LibraryBack.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        [Authorize(Policy = Policy.MainUsersGroup)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -109,6 +110,7 @@ namespace LibraryBack.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        [Authorize(Policy = Policy.MainUsersGroup)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -121,6 +123,7 @@ namespace LibraryBack.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        [Authorize(Policy = Policy.MainUsersGroup)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateAuthUserDTO user)
         {
@@ -134,6 +137,7 @@ namespace LibraryBack.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        [Authorize(Policy = Policy.MainUsersGroup)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(UsersDTO user)
         {

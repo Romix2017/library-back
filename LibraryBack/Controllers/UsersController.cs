@@ -14,7 +14,7 @@ namespace LibraryBack.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = Policy.MainUsersGroup)]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
@@ -26,7 +26,6 @@ namespace LibraryBack.Controllers
 
         }
         // GET: api/Users
-        [Authorize(Policy = Policy.MainUsersOnly)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UsersDTO>>> Get()
         {

@@ -13,5 +13,6 @@ namespace DAL.Contracts
         int RemoveById(int id);
         Task<Users> GetUserByNameWithRole(string name);
         Task<Users> GetUserById(string id);
+        Task<Users> GetUserByIdWithRole(int id);
     }
 }

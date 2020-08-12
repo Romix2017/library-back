@@ -10,6 +10,7 @@ using BLL.Contract;
 using BLL.Contract.Authorization;
 using BLL.Contract.Errors;
 using BLL.Extensions;
+using Core.Shared.Consts;
 using Core.Shared.Settings;
 using DAL.Contracts;
 using DAL.UnitOfWork;
@@ -60,14 +61,9 @@ namespace LibraryBack
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
-            //TODO: change getconnectionstring to IOptions
-
-
-            services.AddSingleton<IErrorService, ErrorService>();
             services.RegisterBllServices();
-
+            services.AddHttpContextAccessor();
             //Jwt Authentication
-
             var key = Encoding.UTF8.GetBytes(settings.Secret);
             services.AddAuthentication(x =>
             {
@@ -103,12 +99,19 @@ namespace LibraryBack
            });
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(Policy.MainUsersOnly, policy =>
+                options.AddPolicy(Policy.MainUsersGroup, policy =>
                 policy.RequireRole(Role.Admin, Role.Superuser));
+                options.AddPolicy(Policy.RegularUsersGroup, policy =>
+              policy.RequireRole(Role.User));
+                options.AddPolicy(Policy.SupremeUsersGroup, policy =>
+            policy.RequireRole(Role.Superuser));
+                options.AddPolicy(Policy.AdminUsersGroup, policy =>
+          policy.RequireRole(Role.Admin));
+                options.AddPolicy(Policy.LimitedUsersGroup, policy =>
+          policy.RequireRole(Role.Admin, Role.User));
             });
 
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
