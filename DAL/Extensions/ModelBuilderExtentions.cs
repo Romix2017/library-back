@@ -13,12 +13,22 @@ namespace DAL.Extensions
         private static byte[] passwordSalt;
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            GeneratePasswordHashAndSalt("123456");
+            GeneratePasswordHashAndSalt("123");
             modelBuilder.Entity<Roles>().HasData(
                 new Roles
                 {
                     Id = 1,
                     Name = "Superuser"
+                },
+                new Roles
+                {
+                    Id = 2,
+                    Name = "User"
+                },
+                new Roles
+                {
+                    Id = 3,
+                    Name = "Admin"
                 });
             modelBuilder.Entity<Users>().HasData(
                 new Users
@@ -30,6 +40,26 @@ namespace DAL.Extensions
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     RolesId = 1
+                },
+                new Users
+                {
+                    Id = 2,
+                    FirstName = "User",
+                    LastName = "User",
+                    UserName = "User",
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    RolesId = 2
+                },
+                new Users
+                {
+                    Id = 3,
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    UserName = "Admin",
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    RolesId = 3
                 });
         }
         private static void GeneratePasswordHashAndSalt(string password)
