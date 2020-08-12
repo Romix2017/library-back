@@ -93,6 +93,7 @@ namespace BLL.Concrete.Authorization
             newUser.PasswordHash = model.passwordHash;
             newUser.PasswordSalt = model.passwordSalt;
             await this._userService.Add(newUser);
+            user.Id = newUser.Id;
             return user;
         }
         public async Task<UsersDTO> Update(UpdateAuthUserDTO user)

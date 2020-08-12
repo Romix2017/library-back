@@ -26,7 +26,6 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<int>(_unitOfWork.BooksHistoryRepo.RemoveById(id));
-                SaveToDB();
             }
             catch (Exception ex)
             {

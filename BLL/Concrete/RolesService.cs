@@ -24,7 +24,6 @@ namespace BLL.Concrete
             try
             {
                 await Task.FromResult<int>(_unitOfWork.RolesRepo.RemoveById(id));
-                SaveToDB();
             }
             catch (Exception ex)
             {

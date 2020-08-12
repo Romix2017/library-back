@@ -48,6 +48,7 @@ namespace LibraryBack.Controllers
             }
         }
         [HttpPost]
+        [AllowAnonymous]
         [Route("refresh")]
         public async Task<IActionResult> Refresh(LoginModel loginModel)
         {

@@ -65,6 +65,8 @@ namespace BLL.Concrete
         {
             try
             {
+                RolesDTO newUserRole = await _unitOfWork.RolesRepo.GetByIdDTO(entity.RolesId);
+                CheckForRightToCreateSuperuser(newUserRole);
                 var res = await Task.FromResult<Users>(_unitOfWork.UsersRepo.Add(entity));
                 return res;
             }
@@ -109,13 +111,28 @@ namespace BLL.Concrete
                 throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.REMOVE);
             }
         }
+        private void CheckForRightToCreateSuperuser(RolesDTO newUserRole)
+        {
+            string currentUserRole = GetCurrentUserRole();
+            if (newUserRole != null &&
+                (newUserRole.Name == Role.Superuser) &&
+                (currentUserRole != Role.Superuser))
+            {
+                throw new Exception("Only superuser can create superuser");
+            }
+        }
         private void CheckForRight(Users user)
         {
-            string userRole = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Role).Value;
+            string userRole = GetCurrentUserRole();
             if (userRole != Role.Superuser && user.Roles.Name == Role.Superuser)
             {
                 throw new Exception("Cannot update superadmin");
             }
+        }
+        private string GetCurrentUserRole()
+        {
+            string res = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Role).Value;
+            return res;
         }
     }
 }
