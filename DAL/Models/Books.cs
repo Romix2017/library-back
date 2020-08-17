@@ -14,5 +14,6 @@ namespace DAL.Models
         public Genres Genres { get; set; }
         public int GenresId { get; set; }
         public string Notation { get; set; }
+        public bool isAvailable { get; set; }
     }
 }

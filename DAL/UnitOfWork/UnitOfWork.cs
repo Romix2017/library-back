@@ -19,11 +19,10 @@ namespace DAL.UnitOfWork
             IBooksHistoryRepository booksHistoryRepository,
             IGenresRepository genresRepository,
             IRolesRepository rolesRepository,
-            IUsersRepository usersRepository
-            )
+            IUsersRepository usersRepository,
+            LibraryContext context)
         {
-            // _context = context;//new LibraryContext(new ConcreteContextOptionsCreator().Create(connectionString));
-            // _context.Database.Migrate();
+            context.Database.Migrate();
             BooksRepo = booksRepository;
             BooksHistoryRepo = booksHistoryRepository;
             GenresRepo = genresRepository;

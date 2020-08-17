@@ -26,5 +26,6 @@ namespace DAL.Contracts
         IEnumerable<TDto> RemoveRangeDTO(IEnumerable<TDto> entities);
         TDto UpdateDTO(TDto entity);
         int Complete();
+        Task<TDto> GetByIdDTOAsNoTrack(int id);
     }
 }

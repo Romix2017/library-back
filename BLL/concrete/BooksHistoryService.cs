@@ -32,5 +32,38 @@ namespace BLL.Concrete
                 throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.REMOVE);
             }
         }
+        public override async Task<BooksHistoryDTO> Add(BooksHistoryDTO entity)
+        {
+            try
+            {
+                var res = await Task.FromResult<BooksHistoryDTO>(_unitOfWork.BooksHistoryRepo.AddDTO(entity));
+                Books book = await _unitOfWork.BooksRepo.GetById(entity.BooksId);
+                book.isAvailable = false;
+                _unitOfWork.BooksRepo.Complete();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.ADD);
+            }
+        }
+        public override async Task Update(BooksHistoryDTO entity)
+        {
+            try
+            {
+                BooksHistoryDTO bookHistoryDTO = await _unitOfWork.BooksHistoryRepo.GetByIdDTOAsNoTrack(entity.Id);
+                await Task.FromResult<BooksHistoryDTO>(_unitOfWork.BooksHistoryRepo.UpdateDTO(entity));
+                if ((bookHistoryDTO.DateReturned != entity.DateReturned) && entity.DateReturned.HasValue)
+                {
+                    Books book = await _unitOfWork.BooksRepo.GetById(entity.BooksId);
+                    book.isAvailable = true;
+                    _unitOfWork.BooksRepo.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw _errorService.CreateException(ex, this._moduleCode, MethodsIndex.UPDATE);
+            }
+        }
     }
 }

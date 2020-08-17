@@ -41,6 +41,8 @@ namespace DAL.Models
                 .HasColumnType("datetime2");
                 entity.Property(e => e.Notation)
                 .HasMaxLength(500);
+                entity.Property(e => e.isAvailable)
+                .HasDefaultValue(true);
             });
             modelBuilder.Entity<Roles>(entity =>
             {
@@ -70,6 +72,7 @@ namespace DAL.Models
             modelBuilder.Entity<BooksHistory>(entity =>
             {
                 entity.Property(e => e.DateGiven)
+                .IsRequired()
                 .HasColumnType("datetime2");
                 entity.Property(e => e.DateReturned)
                 .HasColumnType("datetime2");

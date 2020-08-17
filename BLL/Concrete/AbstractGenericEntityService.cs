@@ -25,7 +25,7 @@ namespace BLL.Concrete
             _errorService = errorService;
             _moduleCode = moduleCode;
         }
-        public async Task<TDto> Add(TDto entity)
+        public virtual async Task<TDto> Add(TDto entity)
         {
             try
             {

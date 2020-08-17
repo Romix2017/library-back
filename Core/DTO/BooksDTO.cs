@@ -12,5 +12,6 @@ namespace Core.DTO
         public DateTime? PublishingDate { get; set; }
         public int GenresId { get; set; }
         public string Notation { get; set; }
+        public bool isAvailable { get; set; }
     }
 }

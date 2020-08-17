@@ -77,6 +77,12 @@ namespace DAL.UnitOfWork
             var res = await _entities.FindAsync(id);
             return Mapping.Mapper.Map<TDto>(res);
         }
+        public async Task<TDto> GetByIdDTOAsNoTrack(int id)
+        {
+            var res = await _entities.FindAsync(id);
+            _context.Entry(res).State = EntityState.Detached;
+            return Mapping.Mapper.Map<TDto>(res);
+        }
         public async Task<IEnumerable<TDto>> GetAllDTO()
         {
             var res = await _entities.ToListAsync();
